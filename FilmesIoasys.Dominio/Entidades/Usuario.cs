@@ -6,6 +6,10 @@ namespace FilmesIoasys.Dominio.Entidades
 {
     public class Usuario : Base
     {
+        public Usuario()
+        {
+        }
+
         public Usuario(
             string email,
             string senha,
@@ -13,7 +17,7 @@ namespace FilmesIoasys.Dominio.Entidades
             TipoUsuario tipoUsuario
         )
         {
-            Id = GenerateNewGuid();
+            Id = GeraNovoGuid();
             Email = email;
             Senha = senha;
             Nome = nome;
@@ -27,7 +31,7 @@ namespace FilmesIoasys.Dominio.Entidades
         public bool Ativo { get; private set; }
         public TipoUsuario TipoUsuario { get; private set; }
 
-        protected override void Validate()
+        protected override void Valida()
         {
             AddNotifications(new Contract<Notification>()
                 .IsNotEmail(Email, "Email", "O campo e-mail deve ser do tipo e-mail.")
@@ -40,5 +44,11 @@ namespace FilmesIoasys.Dominio.Entidades
 
         public void AplicaSenhaCriptografada(string senhaCriptografada)
             => Senha = senhaCriptografada;
+
+        public Usuario RecuperaUsuarioInvalido(string mensagemErro)
+        {
+            this.AddNotification(nameof(Usuario), mensagemErro);
+            return this;
+        }
     }
 }

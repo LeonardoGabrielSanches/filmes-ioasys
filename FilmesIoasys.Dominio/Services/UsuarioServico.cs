@@ -36,5 +36,20 @@ namespace FilmesIoasys.Dominio.Services
 
             return usuario;
         }
+
+        public Usuario Login(string email, string senha)
+        {
+            var usuario = _usuarioRepositorio.RecuperaUsuarioPorEmail(email);
+
+            if (usuario == null)
+                return new Usuario().RecuperaUsuarioInvalido("E-mail não cadastrado.");
+
+            bool senhaCorreta = Criptografia.VerificarSenha(senha, usuario.Senha);
+
+            if (!senhaCorreta)
+                return new Usuario().RecuperaUsuarioInvalido("Senha incorreta.");
+
+            return usuario;
+        }
     }
 }

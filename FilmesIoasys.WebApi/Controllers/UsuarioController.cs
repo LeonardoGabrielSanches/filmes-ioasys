@@ -17,12 +17,12 @@ namespace FilmesIoasys.WebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CadastroUsuario([FromBody] CriaUsuarioViewModel usuarioViewModel)
+        public IActionResult CadastroUsuario([FromBody] CriaUsuarioViewModel criaUsuarioViewModel)
         {
-            var usuario = _usuarioServico.CriaUsuario(usuarioViewModel);
+            var usuario = _usuarioServico.CriaUsuario(criaUsuarioViewModel);
 
             if (!usuario.IsValid)
-                return BadRequest(usuario.NotificationError);
+                return BadRequest(usuario.NotificacaoErro);
 
             return Created("", (UsuarioViewModel)usuario);
         }

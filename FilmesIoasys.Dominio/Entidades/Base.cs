@@ -8,12 +8,12 @@ namespace FilmesIoasys.Dominio.Entidades
     {
         public Guid Id { get; protected set; }
 
-        protected abstract void Validate();
+        protected abstract void Valida();
 
-        public string NotificationError
+        public string NotificacaoErro
             => this.Notifications?.FirstOrDefault()?.Message ?? "";
 
-        public Guid GenerateNewGuid()
+        public Guid GeraNovoGuid()
             => Guid.NewGuid();
     }
 }

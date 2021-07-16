@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FilmesIoasys.WebApi.Services
 {
-    public static class TokenService
+    public static class TokenServico
     {
         public static string GeraToken(Usuario usuario)
         {

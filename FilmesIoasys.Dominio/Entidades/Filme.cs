@@ -13,14 +13,14 @@ namespace FilmesIoasys.Dominio.Entidades
         public IEnumerable<Pessoa> Atores { get; private set; }
         public Genero Genero { get; private set; }
 
-        protected override void Validate()
+        protected override void Valida()
         {
             AddNotifications(new Contract<Notification>()
                .IsNullOrEmpty(Titulo, "Título", "O campo título deve estar preenchido.")
                .IsNullOrEmpty(Sinopse, "Sinopse", "O campo sinopse deve estar preenchido.")
-               .IsFalse(Diretor.IsValid, "Diretor", Diretor.NotificationError)
-               .IsTrue(Atores.Any(ator => !ator.IsValid), "Ator", Atores.FirstOrDefault(ator => !ator.IsValid).NotificationError)
-               .IsFalse(Genero.IsValid, "Gênero", Genero.NotificationError));
+               .IsFalse(Diretor.IsValid, "Diretor", Diretor.NotificacaoErro)
+               .IsTrue(Atores.Any(ator => !ator.IsValid), "Ator", Atores.FirstOrDefault(ator => !ator.IsValid).NotificacaoErro)
+               .IsFalse(Genero.IsValid, "Gênero", Genero.NotificacaoErro));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace FilmesIoasys.Dominio.Entidades
     {
         public string Nome { get; private set; }
 
-        protected override void Validate()
+        protected override void Valida()
         {
             AddNotifications(new Contract<Notification>()
                 .IsNotNullOrEmpty(Nome, "Nome", "O campo nome deve estar preenchido."));
