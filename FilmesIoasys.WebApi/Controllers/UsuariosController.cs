@@ -1,3 +1,4 @@
+using System.Linq;
 using FilmesIoasys.Dominio.Interfaces.Services;
 using FilmesIoasys.WebApi.Services;
 using FilmesIoasys.WebApi.ViewModels;
@@ -8,12 +9,22 @@ namespace FilmesIoasys.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class UsuarioController : ControllerBase
+    public class UsuariosController : ControllerBase
     {
         private readonly IUsuarioServico _usuarioServico;
-        public UsuarioController(IUsuarioServico usuarioServico)
+        public UsuariosController(IUsuarioServico usuarioServico)
         {
             _usuarioServico = usuarioServico;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult RecuperaUsuariosNaoAdminAtivos([FromQuery] int pagina = 0,
+                                                            int tamanho = 5)
+        {
+            var usuarios = _usuarioServico.RecuperaUsuariosNaoAdmAtivos(pagina, tamanho);
+
+            return Ok(usuarios.Select(usuario => (UsuarioViewModel)usuario));
         }
 
         [HttpPost]
@@ -28,13 +39,13 @@ namespace FilmesIoasys.WebApi.Controllers
             return Created("", (UsuarioViewModel)usuario);
         }
 
-        [HttpPut]
+        [HttpPatch]
         [Authorize]
-        public IActionResult MudaStatusAtivo([FromQuery] bool ativo)
+        public IActionResult MudaStatusAtivo([FromBody] AtualizaStatusUsuarioViewModel atualizaStatusUsuarioViewModel)
         {
             string email = TokenServico.RecuperaEmailDoToken(User);
 
-            var usuario = _usuarioServico.MudaStatusAtivo(email, ativo);
+            var usuario = _usuarioServico.MudaStatusAtivo(email, atualizaStatusUsuarioViewModel.Ativo);
 
             return Ok((UsuarioViewModel)usuario);
         }

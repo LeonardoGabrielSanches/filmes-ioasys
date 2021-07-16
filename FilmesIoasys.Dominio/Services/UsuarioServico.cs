@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using FilmesIoasys.Dominio.Entidades;
 using FilmesIoasys.Dominio.Interfaces.Repositories;
 using FilmesIoasys.Dominio.Interfaces.Services;
@@ -65,5 +67,9 @@ namespace FilmesIoasys.Dominio.Services
 
             return usuario;
         }
+
+        public IEnumerable<Usuario> RecuperaUsuariosNaoAdmAtivos(int pagina = 0, int tamanho = 5)
+            => _usuarioRepositorio.RecuperaTodosUsuariosNaoAdmAtivos(pagina, tamanho);
+
     }
 }
