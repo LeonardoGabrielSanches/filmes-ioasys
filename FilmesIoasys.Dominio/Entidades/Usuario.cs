@@ -7,30 +7,35 @@ namespace FilmesIoasys.Dominio.Entidades
     public class Usuario : Base
     {
         public Usuario(
+            string email,
+            string senha,
             string nome,
-            int idade,
             TipoUsuario tipoUsuario
         )
         {
             Id = GenerateNewGuid();
+            Email = email;
+            Senha = senha;
             Nome = nome;
-            Idade = idade;
             Ativo = true;
             TipoUsuario = tipoUsuario;
         }
 
+        public string Email { get; private set; }
+        public string Senha { get; private set; }
         public string Nome { get; private set; }
-        public int Idade { get; private set; }
         public bool Ativo { get; private set; }
         public TipoUsuario TipoUsuario { get; private set; }
 
         protected override void Validate()
         {
             AddNotifications(new Contract<Notification>()
-                .IsNullOrEmpty(Nome, "Nome", "O campo nome deve estar preenchido.")
-                .IsLowerThan(Idade, 1, "Idade", "O campo idade deve ser maior que zero.")
-                .IsNull(Ativo, "Ativo", "O campo ativo deve estar preenchido")
-                .IsNull(TipoUsuario, "Tipo do usuário", "O campo tipo do usuário deve estar preenchido"));
+                .IsNotEmail(Email, "Email", "O campo e-mail deve ser do tipo e-mail.")
+                .IsNotNullOrEmpty(Email, "Email", "O campo e-mail deve estar preenchido.")
+                .IsNotNullOrEmpty(Senha, "Senha", "O campo senha deve estar preenchido.")
+                .IsNotNullOrEmpty(Nome, "Nome", "O campo nome deve estar preenchido.")
+                .IsNotNull(Ativo, "Ativo", "O campo ativo deve estar preenchido")
+                .IsNotNull(TipoUsuario, "Tipo do usuário", "O campo tipo do usuário deve estar preenchido"));
         }
     }
 }

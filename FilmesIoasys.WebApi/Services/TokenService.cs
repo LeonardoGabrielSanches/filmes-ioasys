@@ -1,5 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using FilmesIoasys.Dominio.Entidades;
@@ -21,9 +22,11 @@ namespace FilmesIoasys.WebApi.Services
                        ClaimTypes.NameIdentifier,
                        usuario.Id.ToString()),
                     new Claim(
+                        ClaimTypes.Email,
+                        usuario.Email),
+                    new Claim(
                         ClaimTypes.Role,
-                        usuario.TipoUsuario.ToString("d")
-                    )
+                        usuario.TipoUsuario.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(
@@ -33,5 +36,9 @@ namespace FilmesIoasys.WebApi.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public static string RecuperaEmailDoToken(ClaimsPrincipal User)
+            => User.Identities.FirstOrDefault().Claims.FirstOrDefault(y => y.Type == ClaimTypes.Email).Value;
+
     }
 }
