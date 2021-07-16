@@ -18,6 +18,15 @@ namespace FilmesIoasys.Infra.Data.Sql.Repositories
             _usuarios = _context.Set<Usuario>();
         }
 
+        public Usuario AtualizaStatusAtivo(Usuario usuario)
+        {
+            _usuarios.Attach(usuario);
+            _context.Entry(usuario).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return usuario;
+        }
+
         public Usuario RecuperaUsuarioPorEmail(string email)
             => _usuarios.AsNoTracking().FirstOrDefault(usuario => usuario.Email == email);
 

@@ -50,5 +50,8 @@ namespace FilmesIoasys.Dominio.Entidades
             this.AddNotification(nameof(Usuario), mensagemErro);
             return this;
         }
+
+        public void AtualizaStatusAtivo(bool ativo)
+            => Ativo = ativo;
     }
 }

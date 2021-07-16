@@ -6,5 +6,6 @@ namespace FilmesIoasys.Dominio.Interfaces.Services
     {
         Usuario CriaUsuario(Usuario usuario);
         Usuario Login(string email, string senha);
+        Usuario MudaStatusAtivo(string email, bool ativo);
     }
 }

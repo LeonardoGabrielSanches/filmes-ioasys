@@ -6,5 +6,6 @@ namespace FilmesIoasys.Dominio.Interfaces.Repositories
     {
         Usuario Salvar(Usuario usuario);
         Usuario RecuperaUsuarioPorEmail(string email);
+        Usuario AtualizaStatusAtivo(Usuario usuario);
     }
 }

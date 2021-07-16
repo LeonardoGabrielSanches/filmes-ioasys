@@ -51,5 +51,19 @@ namespace FilmesIoasys.Dominio.Services
 
             return usuario;
         }
+
+        public Usuario MudaStatusAtivo(string email, bool ativo)
+        {
+            var usuario = _usuarioRepositorio.RecuperaUsuarioPorEmail(email);
+
+            if (usuario == null)
+                return new Usuario().RecuperaUsuarioInvalido("E-mail não cadastrado.");
+
+            usuario.AtualizaStatusAtivo(ativo);
+
+            _usuarioRepositorio.AtualizaStatusAtivo(usuario);
+
+            return usuario;
+        }
     }
 }
