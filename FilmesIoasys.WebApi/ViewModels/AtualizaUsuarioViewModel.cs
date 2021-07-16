@@ -4,16 +4,14 @@ using FilmesIoasys.Dominio.Enums;
 
 namespace FilmesIoasys.WebApi.ViewModels
 {
-    public class CriaUsuarioViewModel
+    public class AtualizaUsuarioViewModel
     {
-        [Required(ErrorMessage = "O Email deve estar preenchido.")]
         [EmailAddress(ErrorMessage = "E-mail em formato inválido.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "A senha deve estar preenchido.")]
-        public string Senha { get; set; }
+        public string NovaSenha { get; set; }
 
-        [Compare("Senha", ErrorMessage = "A senha e a confirmação de senha não são iguais")]
+        [Compare("NovaSenha", ErrorMessage = "A senha e a confirmação de senha não são iguais")]
         public string ConfirmacaoSenha { get; set; }
 
         [Required(ErrorMessage = "O nome deve estar preenchido.")]
