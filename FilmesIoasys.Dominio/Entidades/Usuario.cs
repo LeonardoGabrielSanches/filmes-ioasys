@@ -6,6 +6,19 @@ namespace FilmesIoasys.Dominio.Entidades
 {
     public class Usuario : Base
     {
+        public Usuario(
+            string nome,
+            int idade,
+            TipoUsuario tipoUsuario
+        )
+        {
+            Id = GenerateNewGuid();
+            Nome = nome;
+            Idade = idade;
+            Ativo = true;
+            TipoUsuario = tipoUsuario;
+        }
+
         public string Nome { get; private set; }
         public int Idade { get; private set; }
         public bool Ativo { get; private set; }

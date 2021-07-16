@@ -12,5 +12,8 @@ namespace FilmesIoasys.Dominio.Entidades
 
         public string NotificationError
             => this.Notifications.FirstOrDefault().Message;
+
+        public Guid GenerateNewGuid()
+            => Guid.NewGuid();
     }
 }

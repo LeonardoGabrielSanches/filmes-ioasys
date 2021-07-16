@@ -9,7 +9,7 @@ namespace FilmesIoasys.WebApi.Services
 {
     public static class TokenService
     {
-        public static string GeraTokem(Usuario usuario)
+        public static string GeraToken(Usuario usuario)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var chave = Encoding.ASCII.GetBytes("d41d8cd98f00b204e9800998ecf8427e"); // Retirar o código fixo
