@@ -1,4 +1,5 @@
 using System.Text;
+using FilmesIoasys.WebApi.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +48,8 @@ namespace FilmesIoasys.WebApi
                     ValidateAudience = false
                 };
             });
+
+            Injector.RegistraServicos(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

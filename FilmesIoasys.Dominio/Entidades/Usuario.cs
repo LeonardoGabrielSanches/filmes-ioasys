@@ -37,5 +37,8 @@ namespace FilmesIoasys.Dominio.Entidades
                 .IsNotNull(Ativo, "Ativo", "O campo ativo deve estar preenchido")
                 .IsNotNull(TipoUsuario, "Tipo do usuário", "O campo tipo do usuário deve estar preenchido"));
         }
+
+        public void AplicaSenhaCriptografada(string senhaCriptografada)
+            => Senha = senhaCriptografada;
     }
 }

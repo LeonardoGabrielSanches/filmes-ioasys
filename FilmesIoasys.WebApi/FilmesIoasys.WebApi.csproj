@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FilmesIoasys.Dominio\FilmesIoasys.Dominio.csproj" />
+    <ProjectReference Include="..\FilmesIoasys.Infra.Data.Sql\FilmesIoasys.Infra.Data.Sql.csproj" />
   </ItemGroup>
 
 </Project>

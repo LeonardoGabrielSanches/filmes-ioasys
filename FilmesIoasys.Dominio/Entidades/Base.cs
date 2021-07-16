@@ -11,7 +11,7 @@ namespace FilmesIoasys.Dominio.Entidades
         protected abstract void Validate();
 
         public string NotificationError
-            => this.Notifications.FirstOrDefault().Message;
+            => this.Notifications?.FirstOrDefault()?.Message ?? "";
 
         public Guid GenerateNewGuid()
             => Guid.NewGuid();
