@@ -53,5 +53,8 @@ namespace FilmesIoasys.Dominio.Entidades
 
         public void AtualizaStatusAtivo(bool ativo)
             => Ativo = ativo;
+
+        public bool Vazio()
+            => string.IsNullOrEmpty(Id.ToString()) || Id == System.Guid.Empty;
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using FilmesIoasys.Dominio.Entidades;
 using FilmesIoasys.Dominio.Interfaces.Repositories;
 using FilmesIoasys.Dominio.Interfaces.Services;
@@ -24,7 +23,7 @@ namespace FilmesIoasys.Dominio.Services
 
             var usuarioJaExiste = _usuarioRepositorio.RecuperaUsuarioPorEmail(usuario.Email);
 
-            if (usuarioJaExiste != null)
+            if (UsuarioExiste(usuarioJaExiste))
             {
                 usuario.AddNotification(nameof(Usuario), "E-mail já cadastrado");
                 return usuario;
@@ -43,7 +42,7 @@ namespace FilmesIoasys.Dominio.Services
         {
             var usuario = _usuarioRepositorio.RecuperaUsuarioPorEmail(email);
 
-            if (usuario == null)
+            if (!UsuarioExiste(usuario))
                 return new Usuario().RecuperaUsuarioInvalido("E-mail não cadastrado.");
 
             bool senhaCorreta = Criptografia.VerificarSenha(senha, usuario.Senha);
@@ -58,7 +57,7 @@ namespace FilmesIoasys.Dominio.Services
         {
             var usuario = _usuarioRepositorio.RecuperaUsuarioPorEmail(email);
 
-            if (usuario == null)
+            if (!UsuarioExiste(usuario))
                 return new Usuario().RecuperaUsuarioInvalido("E-mail não cadastrado.");
 
             usuario.AtualizaStatusAtivo(ativo);
@@ -70,6 +69,9 @@ namespace FilmesIoasys.Dominio.Services
 
         public IEnumerable<Usuario> RecuperaUsuariosNaoAdmAtivos(int pagina = 0, int tamanho = 5)
             => _usuarioRepositorio.RecuperaTodosUsuariosNaoAdmAtivos(pagina, tamanho);
+
+        private bool UsuarioExiste(Usuario usuario)
+            => usuario != null && !usuario.Vazio();
 
     }
 }
