@@ -9,8 +9,8 @@ namespace MoviesIoasys.Domain.Entities
     {
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public Person Director { get; private set; }
-        public IEnumerable<Person> Cast { get; private set; }
+        public Director Director { get; private set; }
+        public IEnumerable<Actor> Cast { get; private set; }
         public Category Category { get; private set; }
 
         protected override void Validate()

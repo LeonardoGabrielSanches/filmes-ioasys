@@ -13,7 +13,8 @@ namespace MoviesIoasys.Infra.Data.Sql
         { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Person> People { get; set; }
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Director> Directors { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Category> Categories { get; set; }
 
@@ -27,8 +28,10 @@ namespace MoviesIoasys.Infra.Data.Sql
             builder.Ignore<Notification>();
 
             builder.Entity<User>().HasKey(x => x.Id);
-            builder.Entity<Person>().HasKey(x => x.Id);
+            builder.Entity<Director>().HasKey(x => x.Id);
+            builder.Entity<Actor>().HasKey(x => x.Id);
             builder.Entity<Movie>().HasKey(x => x.Id);
+            builder.Entity<Movie>().HasMany(x => x.Cast);
             builder.Entity<Category>().HasKey(x => x.Id);
         }
     }

@@ -1,9 +1,9 @@
-﻿using Flunt.Notifications;
+using Flunt.Notifications;
 using Flunt.Validations;
 
 namespace MoviesIoasys.Domain.Entities
 {
-    public class Person : Base
+    public abstract class Person : Base
     {
         public string Name { get; private set; }
 

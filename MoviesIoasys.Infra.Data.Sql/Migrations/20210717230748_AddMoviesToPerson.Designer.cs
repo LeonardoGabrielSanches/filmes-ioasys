@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesIoasys.Infra.Data.Sql;
 
 namespace MoviesIoasys.Infra.Data.Sql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210717230748_AddMoviesToPerson")]
+    partial class AddMoviesToPerson
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ActorMovie", b =>
+            modelBuilder.Entity("MoviePerson", b =>
                 {
                     b.Property<Guid>("CastId")
                         .HasColumnType("uniqueidentifier");
@@ -31,21 +33,7 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
 
                     b.HasIndex("MoviesId");
 
-                    b.ToTable("ActorMovie");
-                });
-
-            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Actor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Actors");
+                    b.ToTable("MoviePerson");
                 });
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Category", b =>
@@ -62,20 +50,6 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Director", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Directors");
-                });
-
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Movie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -88,8 +62,8 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("DirectorId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Director")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -98,9 +72,21 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("DirectorId");
-
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Person", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("People");
                 });
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.User", b =>
@@ -129,9 +115,9 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ActorMovie", b =>
+            modelBuilder.Entity("MoviePerson", b =>
                 {
-                    b.HasOne("MoviesIoasys.Domain.Entities.Actor", null)
+                    b.HasOne("MoviesIoasys.Domain.Entities.Person", null)
                         .WithMany()
                         .HasForeignKey("CastId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -150,18 +136,7 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("MoviesIoasys.Domain.Entities.Director", "Director")
-                        .WithMany("Movies")
-                        .HasForeignKey("DirectorId");
-
                     b.Navigation("Category");
-
-                    b.Navigation("Director");
-                });
-
-            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Director", b =>
-                {
-                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
