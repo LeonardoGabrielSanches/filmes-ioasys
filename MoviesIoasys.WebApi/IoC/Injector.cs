@@ -21,9 +21,6 @@ namespace MoviesIoasys.WebApi.IoC
             service.AddTransient<GetMovieDetailsService, GetMovieDetailsService>();
 
             service.AddTransient<IUsersRepository, UsersRepository>();
-            service.AddTransient<IDirectorsRepository, DirectorsRepository>();
-            service.AddTransient<IActorsRepository, ActorsRepository>();
-            service.AddTransient<ICategoriesRepository, CategoriesRepository>();
             service.AddTransient<IMoviesRepository, MoviesRepository>();
             service.AddTransient<IVotesRepository, VotesRepository>();
         }

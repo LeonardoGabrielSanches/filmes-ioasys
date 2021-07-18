@@ -7,13 +7,10 @@ namespace MoviesIoasys.Domain.Services.Movies
     public class GetMovieDetailsService
     {
         private readonly IMoviesRepository _moviesRepository;
-        private readonly IVotesRepository _votesRepository;
 
-        public GetMovieDetailsService(IMoviesRepository moviesRepository,
-                                      IVotesRepository votesRepository)
+        public GetMovieDetailsService(IMoviesRepository moviesRepository)
         {
             _moviesRepository = moviesRepository;
-            _votesRepository = votesRepository;
         }
 
         public Movie GetMovieDetails(Guid id)
@@ -23,9 +20,7 @@ namespace MoviesIoasys.Domain.Services.Movies
             if (!movie?.Exists() ?? false)
                 return movie;
 
-            var rating = _votesRepository.GetMovieRating(id);
-
-            movie.SetRating(rating);
+            movie.CalculateRating();
 
             return movie;
         }

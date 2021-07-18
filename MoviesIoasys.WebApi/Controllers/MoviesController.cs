@@ -4,6 +4,7 @@ using MoviesIoasys.Domain.Interfaces.Repositories;
 using MoviesIoasys.Domain.Services.Movies;
 using MoviesIoasys.WebApi.ViewModels.Movies;
 using System;
+using System.Collections.Generic;
 
 namespace MoviesIoasys.WebApi.Controllers
 {
@@ -13,15 +14,17 @@ namespace MoviesIoasys.WebApi.Controllers
     {
         [HttpGet]
         [Authorize]
-        public IActionResult GetMovies([FromServices] GetMovieDetailsService getMovieDetailsService,
-                                             Guid id)
+        public IActionResult GetMovies([FromServices] IMoviesRepository moviesRepository,
+                                       [FromQuery] List<string> actors,int page = 0, int size = 5, string director = "", string title = "", string category = "")
         {
-            var movie = getMovieDetailsService.GetMovieDetails(id);
+            return NoContent();
 
-            if (!movie?.Exists() ?? true)
-                return NoContent();
+            //var movie = getMovieDetailsService.GetMovieDetails(id);
 
-            return Ok((MovieDetailsViewModel)movie);
+            //if (!movie?.Exists() ?? true)
+            //    return NoContent();
+
+            //return Ok((MovieDetailsViewModel)movie);
         }
 
         [HttpGet("{id:Guid}")]

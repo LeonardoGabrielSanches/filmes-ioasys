@@ -43,8 +43,8 @@ namespace MoviesIoasys.Domain.Entities
 
 
         public ICollection<ActorMovie> ActorMovies { get; private set; }
-        public IEnumerable<Actor> Cast { get; private set; }
 
+        public IEnumerable<Vote> Votes { get; set; }
         public decimal Rating { get; private set; }
 
         protected override void Validate()
@@ -71,7 +71,12 @@ namespace MoviesIoasys.Domain.Entities
                 ActorMovies.Add(new ActorMovie(actorId: actorId, movieId: Id));
         }
 
-        public void SetRating(decimal rating)
-            => Rating = rating;
+        public void CalculateRating()
+        {
+            var totalValue = Votes.Sum(x => x.Value);
+            var totalVotes = Votes.Count();
+
+            Rating = totalValue / totalVotes;
+        }
     }
 }

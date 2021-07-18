@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MoviesIoasys.Domain.Entities;
 using MoviesIoasys.Domain.Interfaces.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MoviesIoasys.Infra.Data.Sql.Repositories
@@ -25,8 +26,16 @@ namespace MoviesIoasys.Infra.Data.Sql.Repositories
                 .Include(movie => movie.Director)
                 .Include(movie => movie.ActorMovies)
                 .ThenInclude(movie => movie.Actor)
+                .Include(movie => movie.Votes)
                 .FirstOrDefault(movie => movie.Id == id);
 
+        public IEnumerable<Movie> GetAll()
+            => _movies
+                   .Include(movie => movie.Category)
+                   .Include(movie => movie.Director)
+                   .Include(movie => movie.ActorMovies)
+                   .ThenInclude(movie => movie.Actor)
+                   .Include(movie => movie.Votes);
 
         public Movie Save(Movie movie)
         {
