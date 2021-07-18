@@ -35,6 +35,12 @@ namespace MoviesIoasys.Infra.Data.Sql
 
             builder.Entity<Category>().HasKey(x => x.Id);
 
+            builder.Entity<Actor>().HasKey(x => x.Id);
+
+            builder.Entity<Movie>().HasKey(x => x.Id);
+
+            builder.Entity<Vote>().HasKey(x => x.Id);
+
             builder.Entity<ActorMovie>()
                 .HasOne(x => x.Movie)
                 .WithMany(x => x.ActorMovies)
@@ -48,11 +54,11 @@ namespace MoviesIoasys.Infra.Data.Sql
             builder.Entity<ActorMovie>()
                 .HasKey(x => new { x.MovieId, x.ActorId });
 
-            builder.Entity<Actor>().HasKey(x => x.Id);
+            var seed = new Seed();
 
-            builder.Entity<Movie>().HasKey(x => x.Id);
-
-            builder.Entity<Vote>().HasKey(x => x.Id);
+            builder.Entity<Director>().HasData(seed.Directors());
+            builder.Entity<Actor>().HasData(seed.Actors());
+            builder.Entity<Category>().HasData(seed.Categories());
         }
     }
 }

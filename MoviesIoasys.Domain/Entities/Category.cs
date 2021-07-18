@@ -1,10 +1,20 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
+using System;
 
 namespace MoviesIoasys.Domain.Entities
 {
     public class Category : Base
     {
+        public Category(Guid id,
+                        string name)
+        {
+            Id = id;
+            Name = name;
+
+            Validate();
+        }
+
         public Category(string name)
         {
             Id = GenerateNewGuid();

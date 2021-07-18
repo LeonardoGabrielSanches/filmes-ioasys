@@ -32,12 +32,6 @@ namespace MoviesIoasys.Domain.Services.Movies
             if (!Movie.IsValid)
                 return new Movie().GetInvalidMovie(Movie.NotificationError);
 
-            HandleCategory();
-
-            HandleDirector();
-
-            HandleCast();
-
             _moviesRepository.Save(Movie);
 
             return Movie;
