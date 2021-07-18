@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MoviesIoasys.Domain.Interfaces.Repositories;
 using MoviesIoasys.Domain.Services.Movies;
 using MoviesIoasys.WebApi.ViewModels.Movies;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace MoviesIoasys.WebApi.Controllers
@@ -15,6 +14,8 @@ namespace MoviesIoasys.WebApi.Controllers
     {
         [HttpGet]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetMovies([FromServices] GetAllMoviesFillteredService getAllMoviesFillteredService,
                                        [FromQuery] int page = 0, int size = 5, string director = "", string title = "", string category = "", string actor = "")
         {
@@ -25,6 +26,9 @@ namespace MoviesIoasys.WebApi.Controllers
 
         [HttpGet("{id:Guid}")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetMovieDetails([FromServices] GetMovieDetailsService getMovieDetailsService,
                                              Guid id)
         {
@@ -38,6 +42,10 @@ namespace MoviesIoasys.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult CreateMovie([FromServices] CreateMovieService createMovieService,
                                          [FromBody] CreateMovieViewModel createMovieViewModel)
         {
@@ -51,6 +59,10 @@ namespace MoviesIoasys.WebApi.Controllers
 
         [HttpPost("vote/{id:Guid}")]
         [Authorize(Roles = "User")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult Vote([FromServices] CreateVoteForMovieService createVoteForMovieService,
                                   [FromBody] CreateVoteForMovieViewModel createVoteForMovieViewModel,
                                   Guid id)

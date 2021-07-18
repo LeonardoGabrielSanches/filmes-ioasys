@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MoviesIoasys.Domain.Interfaces.Repositories;
 using MoviesIoasys.Domain.Services.Users;
@@ -14,6 +15,9 @@ namespace MoviesIoasys.WebApi.Controllers
     {
         [HttpGet]
         [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult GetUsersNotAdminActive([FromServices] IUsersRepository usersRepository,
                                                     [FromQuery] int page = 0,
                                                     int size = 5)
@@ -25,6 +29,8 @@ namespace MoviesIoasys.WebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult CreateUser([FromServices] CreateUserService createUserService,
                                         [FromBody] CreateUserViewModel createUserViewModel)
         {
@@ -38,6 +44,9 @@ namespace MoviesIoasys.WebApi.Controllers
 
         [HttpPut]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult UpdateUser([FromServices] UpdateUserService updateUserService,
                                         [FromBody] UpdateUserViewModel updateUserViewModel)
         {
@@ -53,6 +62,9 @@ namespace MoviesIoasys.WebApi.Controllers
 
         [HttpPatch]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult UpdateActiveStatus([FromServices] UpdateActiveStatusService updateActiveStatusService,
                                                 [FromBody] UpdateUserActiveStatusViewModel updateUserActiveStatusViewModel)
         {
@@ -60,6 +72,9 @@ namespace MoviesIoasys.WebApi.Controllers
 
             var user = updateActiveStatusService.UpdateActiveStatus(UpdateUserActiveStatusViewModel.GetUserActiveStatusDTO(updateUserActiveStatusViewModel,
                                                                                                                            email));
+
+            if (!user.IsValid)
+                return BadRequest(user.NotificationError);
 
             return Ok((UserViewModel)user);
         }

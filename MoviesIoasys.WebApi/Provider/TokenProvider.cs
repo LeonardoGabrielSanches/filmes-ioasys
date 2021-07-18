@@ -10,10 +10,12 @@ namespace MoviesIoasys.WebApi.Provider
 {
     public class TokenProvider
     {
+        public const string Secret = "d41d8cd98f00b204e9800998ecf8427e";
+
         public static string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("d41d8cd98f00b204e9800998ecf8427e"); // Retirar o código fixo
+            var key = Encoding.ASCII.GetBytes(Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

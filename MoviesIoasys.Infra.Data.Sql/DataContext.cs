@@ -20,10 +20,10 @@ namespace MoviesIoasys.Infra.Data.Sql
         public DbSet<ActorMovie> ActorMovies { get; set; }
         public DbSet<Vote> Votes { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Ioasys;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        //{
+        //    builder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Ioasys;Trusted_Connection=True;");
+        //}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
