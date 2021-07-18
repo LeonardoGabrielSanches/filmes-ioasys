@@ -1,5 +1,6 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,16 +24,17 @@ namespace MoviesIoasys.Domain.Entities
             Cast = cast;
             Category = category;
 
-            var a = Cast.Any(c => c.IsValid);
-
             Validate();
         }
 
         public string Title { get; private set; }
         public string Description { get; private set; }
         public Director Director { get; private set; }
-        public ICollection<Actor> Cast { get; private set; }
+        public IEnumerable<Actor> Cast { get; private set; }
         public Category Category { get; private set; }
+        public Guid CategoryId { get; private set; }
+        public Guid DirectorId { get; private set; }
+        public ICollection<ActorMovie> ActorMovies { get; private set; }
 
         protected override void Validate()
         {
@@ -48,6 +50,27 @@ namespace MoviesIoasys.Domain.Entities
         {
             this.AddNotification(nameof(Movie), errorMessage);
             return this;
+        }
+
+        public void ApplyDirectorId(Director director)
+        {
+            Director = director;
+            DirectorId = director.Id;
+        }
+
+
+        public void ApplyCategoryId(Category category)
+        {
+            Category = category;
+            CategoryId = category.Id;
+        }
+
+        public void ApplyActorMovies(IEnumerable<Actor> cast)
+        {
+            ActorMovies = new List<ActorMovie>();
+
+            foreach (var actor in cast)
+                ActorMovies.Add(new ActorMovie(actorId: actor.Id, movieId: Id));
         }
     }
 }

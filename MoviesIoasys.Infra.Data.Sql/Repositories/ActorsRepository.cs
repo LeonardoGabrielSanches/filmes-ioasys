@@ -18,7 +18,7 @@ namespace MoviesIoasys.Infra.Data.Sql.Repositories
             _actors = _context.Set<Actor>();
         }
 
-        public Actor GetByActorByName(string name)
+        public Actor GetActorByName(string name)
             => _actors.AsNoTracking().FirstOrDefault(actor => actor.Name.ToUpper() == name.ToUpper());
 
         public Actor Save(Actor actor)

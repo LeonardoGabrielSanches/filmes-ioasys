@@ -1,6 +1,7 @@
 using MoviesIoasys.Domain.DTOs.Movies;
 using MoviesIoasys.Domain.Entities;
 using MoviesIoasys.Domain.Interfaces.Repositories;
+using System.Collections.Generic;
 
 namespace MoviesIoasys.Domain.Services.Movies
 {
@@ -22,35 +23,70 @@ namespace MoviesIoasys.Domain.Services.Movies
             _categoriesRepository = categoriesRepository;
         }
 
+        private Movie Movie;
+
         public Movie CreateMovie(CreateMovieDTO createMovieDTO)
         {
-            var movie = (Movie)createMovieDTO;
+            Movie = createMovieDTO;
 
-            if (!movie.IsValid)
-                return new Movie().GetInvalidMovie(movie.NotificationError);
+            if (!Movie.IsValid)
+                return new Movie().GetInvalidMovie(Movie.NotificationError);
 
-            if (!FoundCategory(movie.Category))
-                _categoriesRepository.Save(movie.Category);
+            HandleCategory();
 
-            if (!FoundDirector(movie.Director))
-                _directorsRepository.Save(movie.Director);
+            HandleDirector();
 
-            foreach (var actor in movie.Cast)
+            HandleCast();
+
+            _moviesRepository.Save(Movie);
+
+            return Movie;
+        }
+
+        private void HandleCategory()
+        {
+            var category = _categoriesRepository.GetByCategoryByName(Movie.Category.Name);
+
+            if (!FoundCategory(category))
+                category = _categoriesRepository.Save(Movie.Category);
+
+            Movie.ApplyCategoryId(category);
+        }
+
+        private void HandleDirector()
+        {
+            var director = _directorsRepository.GetByDirectorByName(Movie.Director.Name);
+
+            if (!FoundDirector(director))
+                director = _directorsRepository.Save(Movie.Director);
+
+            Movie.ApplyDirectorId(director);
+        }
+
+        private void HandleCast()
+        {
+            var cast = new List<Actor>();
+
+            foreach (var castActor in Movie.Cast)
+            {
+                var actor = _actorsRepository.GetActorByName(castActor.Name);
+
                 if (!FoundActor(actor))
-                    _actorsRepository.Save(actor);
+                    actor = _actorsRepository.Save(castActor);
 
-            _moviesRepository.Save(movie);
+                cast.Add(actor);
+            }
 
-            return movie;
+            Movie.ApplyActorMovies(cast);
         }
 
         private bool FoundCategory(Category category)
-            => _categoriesRepository.GetByCategoryByName(category.Name)?.Exists() ?? false;
+            => category?.Exists() ?? false;
 
         private bool FoundDirector(Director director)
-            => _directorsRepository.GetByDirectorByName(director.Name)?.Exists() ?? false;
+            => director?.Exists() ?? false;
 
         private bool FoundActor(Actor actor)
-            => _actorsRepository.GetByActorByName(actor.Name)?.Exists() ?? false;
+            => actor?.Exists() ?? false;
     }
 }

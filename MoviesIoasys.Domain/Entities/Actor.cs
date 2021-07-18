@@ -11,6 +11,6 @@ namespace MoviesIoasys.Domain.Entities
             Validate();
         }
 
-        public ICollection<Movie> Movies { get; private set; }
+        public ICollection<ActorMovie> ActorMovies { get; private set; }
     }
 }

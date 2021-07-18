@@ -17,6 +17,7 @@ namespace MoviesIoasys.Infra.Data.Sql
         public DbSet<Director> Directors { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ActorMovie> ActorMovies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -28,11 +29,30 @@ namespace MoviesIoasys.Infra.Data.Sql
             builder.Ignore<Notification>();
 
             builder.Entity<User>().HasKey(x => x.Id);
+
             builder.Entity<Director>().HasKey(x => x.Id);
-            builder.Entity<Actor>().HasKey(x => x.Id);
-            builder.Entity<Movie>().HasKey(x => x.Id);
-            builder.Entity<Movie>().HasMany(x => x.Cast);
+
             builder.Entity<Category>().HasKey(x => x.Id);
+
+            builder.Entity<ActorMovie>()
+                .HasOne(x => x.Movie)
+                .WithMany(x => x.ActorMovies)
+                .HasForeignKey(x => x.MovieId);
+
+            builder.Entity<ActorMovie>()
+                .HasOne(x => x.Actor)
+                .WithMany(x => x.ActorMovies)
+                .HasForeignKey(x => x.ActorId);
+
+            builder.Entity<ActorMovie>()
+                .HasKey(x => new { x.MovieId, x.ActorId });
+
+            builder.Entity<Actor>().HasKey(x => x.Id);
+
+            builder.Entity<Movie>().HasKey(x => x.Id);
+            builder.Entity<Movie>().Ignore(x => x.Category);
+            builder.Entity<Movie>().Ignore(x => x.Director);
+            builder.Entity<Movie>().Ignore(x => x.Cast);
         }
     }
 }
