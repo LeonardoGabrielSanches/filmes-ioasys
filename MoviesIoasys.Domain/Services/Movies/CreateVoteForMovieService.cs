@@ -7,10 +7,13 @@ namespace MoviesIoasys.Domain.Services.Movies
     public class CreateVoteForMovieService
     {
         private readonly IVotesRepository _votesRepository;
+        private readonly IMoviesRepository _moviesRepository;
 
-        public CreateVoteForMovieService(IVotesRepository votesRepository)
+        public CreateVoteForMovieService(IVotesRepository votesRepository,
+                                         IMoviesRepository moviesRepository)
         {
             _votesRepository = votesRepository;
+            _moviesRepository = moviesRepository;
         }
 
         public Vote CreateVoteForMovie(CreateVoteForMovieDTO createVoteForMovieDTO)
@@ -19,6 +22,11 @@ namespace MoviesIoasys.Domain.Services.Movies
 
             if (!vote.IsValid)
                 return vote;
+
+            var movie = _moviesRepository.Get(vote.MovieId);
+
+            if (!movie?.Exists() ?? false)
+                return new Vote().GetInvalidVote("Filme não encontrado.");
 
             _votesRepository.Save(vote);
 

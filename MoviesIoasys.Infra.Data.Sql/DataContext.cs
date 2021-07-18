@@ -38,6 +38,7 @@ namespace MoviesIoasys.Infra.Data.Sql
             builder.Entity<Actor>().HasKey(x => x.Id);
 
             builder.Entity<Movie>().HasKey(x => x.Id);
+            builder.Entity<Movie>().Ignore(x => x.Rating);
 
             builder.Entity<Vote>().HasKey(x => x.Id);
 

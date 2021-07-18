@@ -10,11 +10,8 @@ namespace MoviesIoasys.WebApi.ViewModels.Movies
         [Range(0, 4, ErrorMessage = "O valor deve ser entre 0 e 4.")]
         public decimal Value { get; set; }
 
-        [Required(ErrorMessage = "O campo IdFilme deve estar preenchido.")]
-        public Guid MovieId { get; set; }
-
-        public static implicit operator CreateVoteForMovieDTO(CreateVoteForMovieViewModel createVoteForMovieViewModel)
+        public static CreateVoteForMovieDTO GetCreateVoteForMovieDTO(CreateVoteForMovieViewModel createVoteForMovieViewModel, Guid id)
             => new CreateVoteForMovieDTO(value: createVoteForMovieViewModel.Value,
-                                         movieId: createVoteForMovieViewModel.MovieId);
+                                         movieId: id);
     }
 }

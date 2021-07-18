@@ -45,6 +45,8 @@ namespace MoviesIoasys.Domain.Entities
         public ICollection<ActorMovie> ActorMovies { get; private set; }
         public IEnumerable<Actor> Cast { get; private set; }
 
+        public decimal Rating { get; private set; }
+
         protected override void Validate()
         {
             AddNotifications(new Contract<Notification>()
@@ -68,5 +70,8 @@ namespace MoviesIoasys.Domain.Entities
             foreach (var actorId in castIds)
                 ActorMovies.Add(new ActorMovie(actorId: actorId, movieId: Id));
         }
+
+        public void SetRating(decimal rating)
+            => Rating = rating;
     }
 }

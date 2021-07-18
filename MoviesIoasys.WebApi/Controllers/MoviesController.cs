@@ -11,17 +11,30 @@ namespace MoviesIoasys.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MoviesController : ControllerBase
     {
-        [HttpGet("{id:Guid}")]
+        [HttpGet]
         [Authorize]
-        public IActionResult GetMovieDetails([FromServices] IMoviesRepository moviesRepository,
+        public IActionResult GetMovies([FromServices] GetMovieDetailsService getMovieDetailsService,
                                              Guid id)
         {
-            var movie = moviesRepository.Get(id);
+            var movie = getMovieDetailsService.GetMovieDetails(id);
 
             if (!movie?.Exists() ?? true)
                 return NoContent();
 
-            return Ok((MovieViewModel)movie);
+            return Ok((MovieDetailsViewModel)movie);
+        }
+
+        [HttpGet("{id:Guid}")]
+        [Authorize]
+        public IActionResult GetMovieDetails([FromServices] GetMovieDetailsService getMovieDetailsService,
+                                             Guid id)
+        {
+            var movie = getMovieDetailsService.GetMovieDetails(id);
+
+            if (!movie?.Exists() ?? true)
+                return NoContent();
+
+            return Ok((MovieDetailsViewModel)movie);
         }
 
         [HttpPost]
@@ -37,12 +50,13 @@ namespace MoviesIoasys.WebApi.Controllers
             return Created("", (MovieViewModel)movie);
         }
 
-        [HttpPost("vote")]
+        [HttpPost("vote/{id:Guid}")]
         [Authorize(Roles = "User")]
         public IActionResult Vote([FromServices] CreateVoteForMovieService createVoteForMovieService,
-                                  [FromBody] CreateVoteForMovieViewModel createVoteForMovieViewModel)
+                                  [FromBody] CreateVoteForMovieViewModel createVoteForMovieViewModel,
+                                  Guid id)
         {
-            var vote = createVoteForMovieService.CreateVoteForMovie(createVoteForMovieViewModel);
+            var vote = createVoteForMovieService.CreateVoteForMovie(CreateVoteForMovieViewModel.GetCreateVoteForMovieDTO(createVoteForMovieViewModel, id));
 
             if (!vote.IsValid)
                 return BadRequest(vote.NotificationError);

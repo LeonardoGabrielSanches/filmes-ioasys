@@ -6,6 +6,10 @@ namespace MoviesIoasys.Domain.Entities
 {
     public class Vote : Base
     {
+        public Vote()
+        {
+        }
+
         public Vote(decimal value,
                     Guid movieId)
         {
@@ -23,6 +27,12 @@ namespace MoviesIoasys.Domain.Entities
         {
             AddNotifications(new Contract<Notification>()
                 .IsBetween(Value, 0, 4, "Valor", "O valor do voto deve estar entre 0 e 4."));
+        }
+
+        public Vote GetInvalidVote(string errorMessage)
+        {
+            this.AddNotification(nameof(Vote), errorMessage);
+            return this;
         }
     }
 }

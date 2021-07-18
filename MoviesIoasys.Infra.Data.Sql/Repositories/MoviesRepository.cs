@@ -20,7 +20,12 @@ namespace MoviesIoasys.Infra.Data.Sql.Repositories
         }
 
         public Movie Get(Guid id)
-            => _movies.Include(x => x.Category).Include(x => x.Director).FirstOrDefault(movie => movie.Id == id);
+            => _movies
+                .Include(movie => movie.Category)
+                .Include(movie => movie.Director)
+                .Include(movie => movie.ActorMovies)
+                .ThenInclude(movie => movie.Actor)
+                .FirstOrDefault(movie => movie.Id == id);
 
 
         public Movie Save(Movie movie)
