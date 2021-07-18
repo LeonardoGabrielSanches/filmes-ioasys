@@ -38,6 +38,8 @@
  
  ### Após rodar as migrations
  - Ir até o arquivo "DataContext.cs" e comentar novamente o método "OnConfiguring". (Não é necessário realizar esse passo caso não queira)
+
+---
  
  ## Conexão com banco de dados
  - Configurar a string de conexão no arquivo "appsettings.json", campo "Database".
