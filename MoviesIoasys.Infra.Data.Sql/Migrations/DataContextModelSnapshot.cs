@@ -25,10 +25,16 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Actors");
                 });
@@ -55,6 +61,7 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -69,6 +76,7 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -86,15 +94,19 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("DirectorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("DirectorId");
 
@@ -111,12 +123,15 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserRole")
@@ -136,12 +151,21 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                     b.Property<Guid>("MovieId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
                     b.ToTable("Votes");
+                });
+
+            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Actor", b =>
+                {
+                    b.HasOne("MoviesIoasys.Domain.Entities.Movie", null)
+                        .WithMany("Cast")
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.ActorMovie", b =>
@@ -165,11 +189,32 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Movie", b =>
                 {
-                    b.HasOne("MoviesIoasys.Domain.Entities.Director", null)
+                    b.HasOne("MoviesIoasys.Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesIoasys.Domain.Entities.Director", "Director")
                         .WithMany("Movies")
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Director");
+                });
+
+            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Vote", b =>
+                {
+                    b.HasOne("MoviesIoasys.Domain.Entities.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Actor", b =>
@@ -185,6 +230,8 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Movie", b =>
                 {
                     b.Navigation("ActorMovies");
+
+                    b.Navigation("Cast");
                 });
 #pragma warning restore 612, 618
         }
