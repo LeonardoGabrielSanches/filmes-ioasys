@@ -15,5 +15,8 @@ namespace MoviesIoasys.Domain.Entities
 
         public Guid GenerateNewGuid()
             => Guid.NewGuid();
+
+        public bool Exists()
+            => !string.IsNullOrEmpty(Id.ToString()) || Id != System.Guid.Empty;
     }
 }

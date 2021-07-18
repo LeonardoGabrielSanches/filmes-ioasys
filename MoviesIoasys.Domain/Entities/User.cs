@@ -57,10 +57,7 @@ namespace MoviesIoasys.Domain.Entities
         public void UpdateActive(bool active)
             => Active = active;
 
-        public bool Exists()
-            => !string.IsNullOrEmpty(Id.ToString()) || Id != System.Guid.Empty;
-
-        public void UpdateUser(string email,string name,UserRole userRole)
+        public void UpdateUser(string email, string name, UserRole userRole)
         {
             Email = email;
             Name = name;

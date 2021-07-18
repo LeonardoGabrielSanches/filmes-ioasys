@@ -6,6 +6,11 @@ namespace MoviesIoasys.Domain.Entities
 {
     public class Actor : Person
     {
-        public IEnumerable<Movie> Movies { get; private set; }
+        public Actor(string name) : base(name)
+        {
+            Validate();
+        }
+
+        public ICollection<Movie> Movies { get; private set; }
     }
 }

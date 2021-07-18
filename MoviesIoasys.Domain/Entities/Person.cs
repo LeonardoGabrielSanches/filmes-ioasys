@@ -5,6 +5,12 @@ namespace MoviesIoasys.Domain.Entities
 {
     public abstract class Person : Base
     {
+        protected Person(string name)
+        {
+            Id = GenerateNewGuid();
+            Name = name;
+        }
+
         public string Name { get; private set; }
 
         protected override void Validate()
