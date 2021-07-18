@@ -2,7 +2,6 @@
 using Flunt.Validations;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MoviesIoasys.Domain.Entities
@@ -28,20 +27,20 @@ namespace MoviesIoasys.Domain.Entities
             Validate();
         }
 
-        [Required]
+        
         public string Title { get; private set; }
-        [Required]
+        
         public string Description { get; private set; }
 
-        [Required]
+        
         public Guid CategoryId { get; private set; }
         public Category Category { get; private set; }
 
-        [Required]
+        
         public Guid DirectorId { get; private set; }
         public Director Director { get; private set; }
 
-        [Required]
+        
         public ICollection<ActorMovie> ActorMovies { get; private set; }
         public IEnumerable<Actor> Cast { get; private set; }
 

@@ -1,6 +1,5 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
-using System.ComponentModel.DataAnnotations;
 
 namespace MoviesIoasys.Domain.Entities
 {
@@ -14,7 +13,6 @@ namespace MoviesIoasys.Domain.Entities
             Validate();
         }
 
-        [Required]
         public string Name { get; private set; }
 
         protected override void Validate()

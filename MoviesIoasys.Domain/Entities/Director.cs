@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Flunt.Notifications;
-using Flunt.Validations;
 
 namespace MoviesIoasys.Domain.Entities
 {
