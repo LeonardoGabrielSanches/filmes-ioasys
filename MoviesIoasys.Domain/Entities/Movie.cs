@@ -62,14 +62,14 @@ namespace MoviesIoasys.Domain.Entities
 
         public void ApplyDirectorId(Director director)
         {
-            Director = director;
+            Director = null;
             DirectorId = director.Id;
         }
 
 
         public void ApplyCategoryId(Category category)
         {
-            Category = category;
+            Category = null;
             CategoryId = category.Id;
         }
 
