@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesIoasys.Infra.Data.Sql;
 
 namespace MoviesIoasys.Infra.Data.Sql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210718032658_CreateVote")]
+    partial class CreateVote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +27,15 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Actors");
                 });
@@ -96,6 +103,8 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("DirectorId");
 
                     b.ToTable("Movies");
@@ -141,7 +150,16 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
                     b.ToTable("Votes");
+                });
+
+            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Actor", b =>
+                {
+                    b.HasOne("MoviesIoasys.Domain.Entities.Movie", null)
+                        .WithMany("Cast")
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.ActorMovie", b =>
@@ -165,11 +183,32 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Movie", b =>
                 {
-                    b.HasOne("MoviesIoasys.Domain.Entities.Director", null)
+                    b.HasOne("MoviesIoasys.Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesIoasys.Domain.Entities.Director", "Director")
                         .WithMany("Movies")
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Director");
+                });
+
+            modelBuilder.Entity("MoviesIoasys.Domain.Entities.Vote", b =>
+                {
+                    b.HasOne("MoviesIoasys.Domain.Entities.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Actor", b =>
@@ -185,6 +224,8 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
             modelBuilder.Entity("MoviesIoasys.Domain.Entities.Movie", b =>
                 {
                     b.Navigation("ActorMovies");
+
+                    b.Navigation("Cast");
                 });
 #pragma warning restore 612, 618
         }

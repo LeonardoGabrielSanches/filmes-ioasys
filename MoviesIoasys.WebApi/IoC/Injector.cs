@@ -17,12 +17,14 @@ namespace MoviesIoasys.WebApi.IoC
             service.AddTransient<LoginService, LoginService>();
             service.AddTransient<UpdateUserService, UpdateUserService>();
             service.AddTransient<CreateMovieService, CreateMovieService>();
+            service.AddTransient<CreateVoteForMovieService, CreateVoteForMovieService>();
 
             service.AddTransient<IUsersRepository, UsersRepository>();
             service.AddTransient<IDirectorsRepository, DirectorsRepository>();
             service.AddTransient<IActorsRepository, ActorsRepository>();
             service.AddTransient<ICategoriesRepository, CategoriesRepository>();
             service.AddTransient<IMoviesRepository, MoviesRepository>();
+            service.AddTransient<IVotesRepository, VotesRepository>();
         }
     }
 }

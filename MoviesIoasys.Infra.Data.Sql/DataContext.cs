@@ -18,6 +18,7 @@ namespace MoviesIoasys.Infra.Data.Sql
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ActorMovie> ActorMovies { get; set; }
+        public DbSet<Vote> Votes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -53,6 +54,9 @@ namespace MoviesIoasys.Infra.Data.Sql
             builder.Entity<Movie>().Ignore(x => x.Category);
             builder.Entity<Movie>().Ignore(x => x.Director);
             builder.Entity<Movie>().Ignore(x => x.Cast);
+
+            builder.Entity<Vote>().HasKey(x => x.Id);
+            builder.Entity<Vote>().Ignore(x => x.Movie);
         }
     }
 }

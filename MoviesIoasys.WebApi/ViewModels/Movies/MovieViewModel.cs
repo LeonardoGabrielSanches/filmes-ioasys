@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MoviesIoasys.Domain.Entities;
@@ -9,6 +10,7 @@ namespace MoviesIoasys.WebApi.ViewModels.Movies
 {
     public class MovieViewModel
     {
+        public Guid Id { get; set; }
         public string Title { get; private set; }
 
         public string Description { get; private set; }
@@ -22,6 +24,7 @@ namespace MoviesIoasys.WebApi.ViewModels.Movies
         public static implicit operator MovieViewModel(Movie movie)
             => new MovieViewModel()
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
                 Director = movie.Director,

@@ -19,7 +19,20 @@ namespace MoviesIoasys.WebApi.Controllers
             if (!movie.IsValid)
                 return BadRequest(movie.NotificationError);
 
-            return Ok((MovieViewModel)movie);
+            return Created("", (MovieViewModel)movie);
+        }
+
+        [HttpPost("vote")]
+        [Authorize(Roles = "User")]
+        public IActionResult Vote([FromServices] CreateVoteForMovieService createVoteForMovieService,
+                                  [FromBody] CreateVoteForMovieViewModel createVoteForMovieViewModel)
+        {
+            var vote = createVoteForMovieService.CreateVoteForMovie(createVoteForMovieViewModel);
+
+            if (!vote.IsValid)
+                return BadRequest(vote.NotificationError);
+
+            return Created("", (VoteViewModel)vote);
         }
     }
 }
