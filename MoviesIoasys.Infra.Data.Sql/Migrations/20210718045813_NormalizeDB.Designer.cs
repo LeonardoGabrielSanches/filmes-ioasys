@@ -10,8 +10,8 @@ using MoviesIoasys.Infra.Data.Sql;
 namespace MoviesIoasys.Infra.Data.Sql.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210718043945_ChangeBuilder")]
-    partial class ChangeBuilder
+    [Migration("20210718045813_NormalizeDB")]
+    partial class NormalizeDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,6 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -63,7 +62,6 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -78,7 +76,6 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -96,14 +93,12 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("DirectorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -125,15 +120,12 @@ namespace MoviesIoasys.Infra.Data.Sql.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserRole")
