@@ -5,6 +5,7 @@ using MoviesIoasys.Domain.Services.Movies;
 using MoviesIoasys.WebApi.ViewModels.Movies;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MoviesIoasys.WebApi.Controllers
 {
@@ -14,17 +15,12 @@ namespace MoviesIoasys.WebApi.Controllers
     {
         [HttpGet]
         [Authorize]
-        public IActionResult GetMovies([FromServices] IMoviesRepository moviesRepository,
-                                       [FromQuery] List<string> actors,int page = 0, int size = 5, string director = "", string title = "", string category = "")
+        public IActionResult GetMovies([FromServices] GetAllMoviesFillteredService getAllMoviesFillteredService,
+                                       [FromQuery] int page = 0, int size = 5, string director = "", string title = "", string category = "", string actor = "")
         {
-            return NoContent();
+            var movies = getAllMoviesFillteredService.GetAllMoviesFiltered(page, size, director, title, category, actor);
 
-            //var movie = getMovieDetailsService.GetMovieDetails(id);
-
-            //if (!movie?.Exists() ?? true)
-            //    return NoContent();
-
-            //return Ok((MovieDetailsViewModel)movie);
+            return Ok(movies.Select(movie => (MovieDetailsViewModel)movie));
         }
 
         [HttpGet("{id:Guid}")]

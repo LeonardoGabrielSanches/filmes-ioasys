@@ -76,7 +76,10 @@ namespace MoviesIoasys.Domain.Entities
             var totalValue = Votes.Sum(x => x.Value);
             var totalVotes = Votes.Count();
 
-            Rating = totalValue / totalVotes;
+            if (totalVotes > 0)
+                Rating = totalValue / totalVotes;
+            else
+                Rating = 0;
         }
     }
 }

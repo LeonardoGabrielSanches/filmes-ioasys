@@ -9,14 +9,19 @@ namespace MoviesIoasys.Domain.Services.Movies
     {
         private readonly IMoviesRepository _moviesRepository;
 
-        public IEnumerable<Movie> GetAllMoviesFiltered(List<string> actors, int page = 0, int size = 5, string director = "", string title = "", string category = "")
+        public GetAllMoviesFillteredService(IMoviesRepository moviesRepository)
+        {
+            _moviesRepository = moviesRepository;
+        }
+
+        public IEnumerable<Movie> GetAllMoviesFiltered(int page = 0, int size = 5, string director = "", string title = "", string category = "", string actor = "")
         {
             var movies = _moviesRepository.GetAll();
 
             foreach (var movie in movies)
                 movie.CalculateRating();
 
-            movies = movies.OrderBy(movie => movie.Rating).ThenBy(movie => movie.Title);
+            movies = movies.OrderByDescending(movie => movie.Rating).OrderBy(movie => movie.Title);
 
             if (page > 0)
                 movies = movies.Skip((page - 1) * size).Take(size);
@@ -30,16 +35,13 @@ namespace MoviesIoasys.Domain.Services.Movies
             if (FilterIsFilled(category))
                 movies = movies.Where(movie => movie.Category.Name.Contains(category));
 
-            if (FilterIsFilled(actors))
-                movies = movies.Where(movie=>movie.ActorMovies.Contains())
+            if (FilterIsFilled(actor))
+                movies = movies.Where(movie => movie.ActorMovies.Any(actorMovie => actorMovie.Actor.Name.Contains(actor)));
 
-                return movies;
+            return movies;
         }
 
         private bool FilterIsFilled(string filter)
             => !string.IsNullOrEmpty(filter);
-
-        private bool FilterIsFilled(List<string> actors)
-            => actors?.Any() ?? false;
     }
 }
