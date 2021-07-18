@@ -17,4 +17,8 @@
     <ProjectReference Include="..\MoviesIoasys.Domain\MoviesIoasys.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

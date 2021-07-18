@@ -29,11 +29,11 @@ namespace MoviesIoasys.Infra.Data.Sql
         {
             builder.Ignore<Notification>();
 
-            builder.Entity<User>().HasKey(x => x.Id);
+            //builder.Entity<User>().HasKey(x => x.Id);
 
-            builder.Entity<Director>().HasKey(x => x.Id);
+            //builder.Entity<Director>().HasKey(x => x.Id);
 
-            builder.Entity<Category>().HasKey(x => x.Id);
+            //builder.Entity<Category>().HasKey(x => x.Id);
 
             builder.Entity<ActorMovie>()
                 .HasOne(x => x.Movie)
@@ -48,15 +48,15 @@ namespace MoviesIoasys.Infra.Data.Sql
             builder.Entity<ActorMovie>()
                 .HasKey(x => new { x.MovieId, x.ActorId });
 
-            builder.Entity<Actor>().HasKey(x => x.Id);
+            //builder.Entity<Actor>().HasKey(x => x.Id);
 
-            builder.Entity<Movie>().HasKey(x => x.Id);
-            builder.Entity<Movie>().Ignore(x => x.Category);
-            builder.Entity<Movie>().Ignore(x => x.Director);
-            builder.Entity<Movie>().Ignore(x => x.Cast);
+            //builder.Entity<Movie>().HasKey(x => x.Id);
+            //builder.Entity<Movie>().Ignore(x => x.Category);
+            //builder.Entity<Movie>().Ignore(x => x.Director);
+            //builder.Entity<Movie>().Ignore(x => x.Cast);
 
-            builder.Entity<Vote>().HasKey(x => x.Id);
-            builder.Entity<Vote>().Ignore(x => x.Movie);
+            //builder.Entity<Vote>().HasKey(x => x.Id);
+            //builder.Entity<Vote>().Ignore(x => x.Movie);
         }
     }
 }

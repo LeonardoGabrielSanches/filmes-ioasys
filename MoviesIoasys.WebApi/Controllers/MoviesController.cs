@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoviesIoasys.Domain.Interfaces.Repositories;
 using MoviesIoasys.Domain.Services.Movies;
 using MoviesIoasys.WebApi.ViewModels.Movies;
+using System;
 
 namespace MoviesIoasys.WebApi.Controllers
 {
@@ -9,6 +11,19 @@ namespace MoviesIoasys.WebApi.Controllers
     [Route("v1/[controller]")]
     public class MoviesController : ControllerBase
     {
+        [HttpGet("{id:Guid}")]
+        [Authorize]
+        public IActionResult GetMovieDetails([FromServices] IMoviesRepository moviesRepository,
+                                             Guid id)
+        {
+            var movie = moviesRepository.Get(id);
+
+            if (!movie?.Exists() ?? true)
+                return NoContent();
+
+            return Ok((MovieViewModel)movie);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public IActionResult CreateMovie([FromServices] CreateMovieService createMovieService,

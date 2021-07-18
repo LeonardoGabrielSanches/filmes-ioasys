@@ -1,11 +1,13 @@
 ﻿using Flunt.Notifications;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MoviesIoasys.Domain.Entities
 {
     public abstract class Base : Notifiable<Notification>
     {
+        [Key]
         public Guid Id { get; protected set; }
 
         protected abstract void Validate();

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MoviesIoasys.Domain.Entities;
 using MoviesIoasys.Domain.Interfaces.Repositories;
+using System;
+using System.Linq;
 
 namespace MoviesIoasys.Infra.Data.Sql.Repositories
 {
@@ -16,6 +18,10 @@ namespace MoviesIoasys.Infra.Data.Sql.Repositories
             _context = context;
             _movies = _context.Set<Movie>();
         }
+
+        public Movie Get(Guid id)
+            => _movies.Include(x => x.Category).Include(x => x.Director).FirstOrDefault(movie => movie.Id == id);
+
 
         public Movie Save(Movie movie)
         {

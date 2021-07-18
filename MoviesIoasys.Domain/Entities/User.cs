@@ -1,7 +1,7 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
 using MoviesIoasys.Domain.Enums;
-using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoviesIoasys.Domain.Entities
 {
@@ -28,10 +28,15 @@ namespace MoviesIoasys.Domain.Entities
             Validate();
         }
 
+        [Required]
         public string Email { get; private set; }
+        [Required]
         public string Password { get; private set; }
+        [Required]
         public string Name { get; private set; }
+        [Required]
         public bool Active { get; private set; }
+        [Required]
         public UserRole UserRole { get; private set; }
 
         protected override void Validate()

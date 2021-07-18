@@ -15,6 +15,7 @@ namespace MoviesIoasys.Domain.Entities
         }
 
         public decimal Value { get; private set; }
+
         public Guid MovieId { get; private set; }
         public Movie Movie { get; private set; }
 
